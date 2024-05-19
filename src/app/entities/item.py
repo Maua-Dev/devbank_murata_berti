@@ -1,8 +1,53 @@
 # from typing import Tuple
-# from ..errors.entity_errors import ParamNotValidated
+from typing import Dict
+from ..errors.entity_errors import ParamNotValidated
 # from ..enums.item_type_enum import ItemTypeEnum
 
+class Item: 
+    name: str
+    agency: str
+    account: str
+    current_balance: float
 
+    def __init__(self, name: str = None, agency: str = None, account: str = None, current_balance: float = None):
+        self.name = name
+
+        if not self.validate_agency(agency):
+            raise ParamNotValidated("agency", "must have 4 digits")
+        self.agency = agency
+
+        if not self.validate_account(account):
+            raise ParamNotValidated("account", "must follow the following pattern XXXXX-X")
+        self.account = account
+
+        if not self.validate_current_balance(current_balance):
+            raise ParamNotValidated("current_balance", "must be a float")
+        self.current_balance = current_balance
+
+    @staticmethod
+    def validate_agency(agency) -> bool:
+        if agency is None or len(agency) != 4:
+            return False
+        return True
+    
+    @staticmethod
+    def validate_account(account) -> bool:
+        if account is None or len(account) != 7 or account[5] != '-':
+            return False
+        return True
+    
+    @staticmethod
+    def validate_current_balance(current_balance) -> bool:
+        return isinstance(current_balance, float)
+    
+    def to_dict(self) -> Dict:
+        return {
+            "name": self.name,
+            "agency": self.agency,
+            "account": self.account,
+            "current_balance": self.current_balance
+        }
+    
 # class Item:
 #     name: str
 #     price: float

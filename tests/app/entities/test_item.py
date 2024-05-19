@@ -1,7 +1,55 @@
-# import pytest
+import pytest
 # from src.app.entities.item import Item
 # from src.app.enums.item_type_enum import ItemTypeEnum
-# from src.app.errors.entity_errors import ParamNotValidated
+from src.app.errors.entity_errors import ParamNotValidated
+
+from src.app.entities.item import Item
+
+
+class Test_Item:
+    def test_item(self):
+        name = "Vini"
+        agency = "1234"
+        account = "56789-0"
+        current_balance = 1000000000.0
+
+        item = Item(name, agency = agency, account = account, current_balance = current_balance)
+    
+        assert item.name == "Vini"
+        assert item.agency == "1234"
+        assert item.account == "56789-0"
+        assert item.current_balance == 1000000000.0
+
+    def test_agency_wrong(self):
+        with pytest.raises(ParamNotValidated):
+            item = Item(name = "Vini", agency = "12346", account = "56789-0", current_balance = 1000000000.0)
+            
+    def test_accout_wrong(self):
+        with pytest.raises(ParamNotValidated):
+            item = Item(name = "Vini", agency = "1234", account = "567892", current_balance = 1000000000.0)
+
+    def test_current_balance(self):
+        with pytest.raises(ParamNotValidated):
+            item = Item(name = "Vini", agency = "1234", account = "5678-9", current_balance = 1000000000)
+
+    def test_to_dict(self):
+        name = "Vini"
+        agency = "1234"
+        account = "56789-0"
+        current_balance = 1000000000.0
+
+        item = Item(name = name, agency = agency, account = account, current_balance = current_balance)
+
+        item_dict = item.to_dict()
+
+        expected_item_dict = {
+            "name": name,
+            "agency": agency,
+            "account": account,
+            "current_balance": current_balance
+        }
+
+        assert item_dict == expected_item_dict
 
 
 # class Test_Item:

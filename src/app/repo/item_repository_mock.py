@@ -4,16 +4,16 @@ from typing import Dict, Optional, List
 from ..entities.item import User
 from ..repo.item_repository_interface import IUserRepository
 
-class ItemRepositoryMocky(IUserRepository):
-    items: List[User]
+class UserRepositoryMocky(IUserRepository):
+    users: List[User]
 
     def __init__(self):
-        self.items = [
+        self.users = [
             User(name = "Vini", agency = "1234", account = "56789-0", current_balance = 1000000000.0, timestamp= 1000000000.0, value= 1000000000.0, type= "deposit"),
         ]
 
-    def get_all_items(self) -> List[User]:
-        return self.items
+    def get_all_users(self) -> List[User]:
+        return self.users
      
 # class ItemRepositoryMock(IItemRepository):
 #     items: Dict[int, Item]

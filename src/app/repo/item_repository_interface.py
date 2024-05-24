@@ -3,17 +3,17 @@ from typing import List, Optional, Tuple
 
 # from ..enums.item_type_enum import ItemTypeEnum
 
-from ..entities.item import Item
+from ..entities.item import User
 
 class IUserRepository(ABC):
 
     @abstractmethod
-    def get_all_items(self) -> List[Item]:
+    def get_all_users(self) -> List[User]:
         """
         Returns all the itens in the database 
         """
         pass
-
+                        
 
 # class IItemRepository(ABC):
     

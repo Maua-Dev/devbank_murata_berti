@@ -16,6 +16,8 @@ class History:
             raise ParamNotValidated("value", "must be a float")
         self.value = value
 
+        if not self.validate_type(type):
+            raise ParamNotValidated("type", "must be a valid HistoryTypeEnum")
         self.type = type
 
     @staticmethod
@@ -29,3 +31,7 @@ class History:
     @staticmethod
     def validate_value(value) -> bool:
         return isinstance(value, float)
+    
+    @staticmethod
+    def validate_type(type) -> bool:
+        return isinstance(type, HistoryTypeEnum)

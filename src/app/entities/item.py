@@ -2,7 +2,7 @@ from typing import Dict
 from ..errors.entity_errors import ParamNotValidated
 
 class User: 
-    def __init__(self, name: str = None, agency: str = None, account: str = None, current_balance: float = None, timestamp: float = None, value: float = None, type: ItemTypeEnum = None):
+    def __init__(self, name: str = None, agency: str = None, account: str = None, current_balance: float = None):
         if not self.validate_name(name):
             raise ParamNotValidated("name", "must be a non-empty string")
         self.name = name

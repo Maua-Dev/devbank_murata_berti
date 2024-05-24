@@ -1,7 +1,7 @@
 import pytest
 from src.app.errors.entity_errors import ParamNotValidated
 
-from src.app.entities.item import Withdraw
+from src.app.entities.withdraw import Withdraw
 
 
 class Test_Withdraw:

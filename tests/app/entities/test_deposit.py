@@ -1,7 +1,7 @@
 import pytest
 from src.app.errors.entity_errors import ParamNotValidated
 
-from src.app.entities.item import Deposit
+from src.app.entities.deposit import Deposit
 
 class Test_Deposit:
     def test_deposit(self):

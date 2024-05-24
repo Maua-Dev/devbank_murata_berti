@@ -1,11 +1,11 @@
 import pytest
 # from src.app.entities.item import Item
 # from src.app.enums.item_type_enum import ItemTypeEnum
-from src.app.repo.item_repository_mock import ItemRepositoryMock
+from src.app.repo.item_repository_mock import UserRepositoryMocky
 
-class Test_ItemRepositoryMock:
+class Test_UserRepositoryMock:
     def test_get_all_items(self):
-        repo = ItemRepositoryMock()
+        repo = UserRepositoryMocky()
 
         items = repo.get_all_items()
 

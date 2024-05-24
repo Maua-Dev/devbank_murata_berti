@@ -21,12 +21,12 @@ def get_all_items():
     print("Entrando no get all items")
     items = repo.get_all_items()
 
-    items_list = list()
+    users_list = list()
     for item in items:
-        items_list.append(item.to_dict())
+        users_list.append(item.to_dict())
         
     return {
-        "items": items_list
+        "User": users_list
     }
 
 # @app.get("/items/{item_id}")

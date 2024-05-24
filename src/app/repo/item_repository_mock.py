@@ -1,20 +1,18 @@
 from typing import Dict, Optional, List
 
 # from ..enums.item_type_enum import ItemTypeEnum
-from ..entities.item import Item
-from ..repo.item_repository_interface import IItemRepository
+from ..entities.item import User
+from ..repo.item_repository_interface import IUserRepository
 
-class ItemRepositoryMocky(IItemRepository):
-    items: List[Item]
+class ItemRepositoryMocky(IUserRepository):
+    items: List[User]
 
     def __init__(self):
         self.items = [
-            Item(name = "Vini", agency = "1234", account = "56789-0", current_balance = 1000000000.0),
-            Item(name = "Vini2", agency = "4321", account = "09876-5", current_balance = 10000000000.0),
-            Item(name = "Vini3", agency = "2143", account = "76509-8", current_balance = 10000000000.0)
+            User(name = "Vini", agency = "1234", account = "56789-0", current_balance = 1000000000.0, timestamp= 1000000000.0, value= 1000000000.0, type= "deposit"),
         ]
 
-    def get_all_items(self) -> List[Item]:
+    def get_all_items(self) -> List[User]:
         return self.items
      
 # class ItemRepositoryMock(IItemRepository):

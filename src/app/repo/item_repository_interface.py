@@ -5,7 +5,7 @@ from typing import List, Optional, Tuple
 
 from ..entities.item import Item
 
-class IItemRepository(ABC):
+class IUserRepository(ABC):
 
     @abstractmethod
     def get_all_items(self) -> List[Item]:

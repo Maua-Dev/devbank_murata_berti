@@ -1,15 +1,10 @@
-# from typing import Tuple
 from typing import Dict
 from ..errors.entity_errors import ParamNotValidated
-# from ..enums.item_type_enum import ItemTypeEnum
 
-class Item: 
-    name: str
-    agency: str
-    account: str
-    current_balance: float
-
-    def __init__(self, name: str = None, agency: str = None, account: str = None, current_balance: float = None):
+class User: 
+    def __init__(self, name: str = None, agency: str = None, account: str = None, current_balance: float = None, timestamp: float = None, value: float = None, type: ItemTypeEnum = None):
+        if not self.validate_name(name):
+            raise ParamNotValidated("name", "must be a non-empty string")
         self.name = name
 
         if not self.validate_agency(agency):
@@ -23,6 +18,11 @@ class Item:
         if not self.validate_current_balance(current_balance):
             raise ParamNotValidated("current_balance", "must be a float")
         self.current_balance = current_balance
+
+
+    @staticmethod
+    def validate_name(name) -> bool:
+        return isinstance(name, str) and bool(name.strip())    
 
     @staticmethod
     def validate_agency(agency) -> bool:

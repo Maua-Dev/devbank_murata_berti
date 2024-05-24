@@ -3,17 +3,17 @@ import pytest
 # from src.app.enums.item_type_enum import ItemTypeEnum
 from src.app.errors.entity_errors import ParamNotValidated
 
-from src.app.entities.item import Item
+from src.app.entities.item import User
 
 
-class Test_Item:
-    def test_item(self):
+class Test_User:
+    def test_user(self):
         name = "Vini"
         agency = "1234"
         account = "56789-0"
         current_balance = 1000000000.0
 
-        item = Item(name, agency = agency, account = account, current_balance = current_balance)
+        item = User(name, agency = agency, account = account, current_balance = current_balance)
     
         assert item.name == "Vini"
         assert item.agency == "1234"
@@ -22,15 +22,15 @@ class Test_Item:
 
     def test_agency_wrong(self):
         with pytest.raises(ParamNotValidated):
-            item = Item(name = "Vini", agency = "12346", account = "56789-0", current_balance = 1000000000.0)
+            item = User(name = "Vini", agency = "12346", account = "56789-0", current_balance = 1000000000.0)
             
-    def test_accout_wrong(self):
+    def test_account_wrong(self):
         with pytest.raises(ParamNotValidated):
-            item = Item(name = "Vini", agency = "1234", account = "567892", current_balance = 1000000000.0)
+            item = User(name = "Vini", agency = "1234", account = "567892", current_balance = 1000000000.0)
 
     def test_current_balance(self):
         with pytest.raises(ParamNotValidated):
-            item = Item(name = "Vini", agency = "1234", account = "5678-9", current_balance = 1000000000)
+            item = User(name = "Vini", agency = "1234", account = "5678-9", current_balance = 1000000000)
 
     def test_to_dict(self):
         name = "Vini"
@@ -38,7 +38,7 @@ class Test_Item:
         account = "56789-0"
         current_balance = 1000000000.0
 
-        item = Item(name = name, agency = agency, account = account, current_balance = current_balance)
+        item = User(name, agency = agency, account = account, current_balance = current_balance)
 
         item_dict = item.to_dict()
 
@@ -46,7 +46,7 @@ class Test_Item:
             "name": name,
             "agency": agency,
             "account": account,
-            "current_balance": current_balance
+            "current_balance": current_balance,
         }
 
         assert item_dict == expected_item_dict

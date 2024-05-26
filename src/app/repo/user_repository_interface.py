@@ -3,7 +3,7 @@ from typing import List, Optional, Tuple
 
 # from ..enums.item_type_enum import ItemTypeEnum
 
-from ..entities.item import User
+from ..entities.user import User
 
 class IUserRepository(ABC):
 

@@ -1,8 +1,8 @@
 from typing import Dict, Optional, List
 
 # from ..enums.item_type_enum import ItemTypeEnum
-from ..entities.item import User
-from ..repo.item_repository_interface import IUserRepository
+from ..entities.user import User
+from ..repo.user_repository_interface import IUserRepository
 
 class UserRepositoryMocky(IUserRepository):
     users: List[User]

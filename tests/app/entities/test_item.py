@@ -3,7 +3,7 @@ import pytest
 # from src.app.enums.item_type_enum import ItemTypeEnum
 from src.app.errors.entity_errors import ParamNotValidated
 
-from src.app.entities.item import User
+from src.app.entities.user import User
 
 
 class Test_User:

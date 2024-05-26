@@ -1,6 +1,6 @@
 from enum import Enum
 
-class HistoryTypeEnum(Enum):
+class TransactionTypeEnum(Enum):
     deposit = "deposit"
     withdraw = "withdraw"
 

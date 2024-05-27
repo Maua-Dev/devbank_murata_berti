@@ -28,16 +28,16 @@ class Transaction:
 
     @staticmethod
     def validate_current_balance(current_balance) -> bool:
-        return isinstance(current_balance, float)
+        return isinstance(current_balance, float) and current_balance >= 0
     
     @staticmethod
     def validate_timestamp(timestamp) -> bool:
-        return isinstance(timestamp, float)
+        return isinstance(timestamp, float) and timestamp is not None
     
     @staticmethod
     def validate_value(value) -> bool:
-        return isinstance(value, float)
+        return isinstance(value, float) and value >= 0
     
     @staticmethod
     def validate_type(type) -> bool:
-        return isinstance(type, TransactionTypeEnum)
+        return isinstance(type, TransactionTypeEnum) and type is not None

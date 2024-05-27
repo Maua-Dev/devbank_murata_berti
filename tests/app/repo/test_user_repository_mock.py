@@ -1,17 +1,59 @@
 import pytest
-# from src.app.entities.item import Item
-# from src.app.enums.item_type_enum import ItemTypeEnum
+from src.app.entities.user import User
 from src.app.repo.user_repository_mock import UserRepositoryMocky
 
 class Test_UserRepositoryMock:
-    def test_get_all_items(self):
+    def test_get_all_users(self):
         repo = UserRepositoryMocky()
+        
+        users = repo.get_all_users()
+        
+        expected_users = repo.users
+        
+        assert expected_users == users
 
-        items = repo.get_all_items()
+    def test_get_user(self):
+        repo = UserRepositoryMocky()
+        
+        user = repo.get_user("Vini", "1234", "56789-0")
+        
+        expected_user = repo.users[0]
+        
+        assert expected_user == user
 
-        expected_item = repo.items
+        non_existent_user = repo.get_user("Murata", "5678", "12345-6")
+        assert non_existent_user is None
 
-        assert expected_item == items
+    def test_create_user(self):
+        repo = UserRepositoryMocky()
+        
+        new_user = User(name="Murata", agency="5678", account="12345-6", current_balance=500.0)
+        created_user = repo.create_user(new_user)
+        
+        assert created_user == new_user
+        assert repo.get_user("Murata", "5678", "12345-6") == new_user
+
+    def test_delete_user(self):
+        repo = UserRepositoryMocky()
+        
+        deleted_user = repo.delete_user("Vini", "1234", "56789-0")
+        
+        assert deleted_user.name == "Vini"
+        assert repo.get_user("Vini", "1234", "56789-0") is None
+
+        non_existent_user_deletion = repo.delete_user("Murata", "5678", "12345-6")
+        assert non_existent_user_deletion is None
+
+    def test_update_user(self):
+        repo = UserRepositoryMocky()
+        
+        updated_user = repo.update_user("Vini", "1234", "56789-0", 2000000000.0)
+        
+        assert updated_user is not None
+        assert updated_user.current_balance == 2000000000.0
+        
+        non_existent_user_update = repo.update_user("Murata", "5678", "12345-6", 300.0)
+        assert non_existent_user_update is None
 
 
 # class Test_ItemRepositoryMock:

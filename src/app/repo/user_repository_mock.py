@@ -1,19 +1,38 @@
-from typing import Dict, Optional, List
-
-# from ..enums.item_type_enum import ItemTypeEnum
-from ..entities.user import User
-from ..repo.user_repository_interface import IUserRepository
+from typing import List, Optional
+from src.app.entities.user import User
+from src.app.repo.user_repository_interface import IUserRepository
 
 class UserRepositoryMocky(IUserRepository):
-    users: List[User]
-
     def __init__(self):
         self.users = [
-            User(name = "Vini", agency = "1234", account = "56789-0", current_balance = 1000000000.0, timestamp= 1000000000.0, value= 1000000000.0, type= "deposit"),
+            User(name="Vini", agency="1234", account="56789-0", current_balance=1000000000.0),
         ]
 
     def get_all_users(self) -> List[User]:
         return self.users
+
+    def get_user(self, name: str, agency: str, account: str) -> Optional[User]:
+        for user in self.users:
+            if user.name == name and user.agency == agency and user.account == account:
+                return user
+        return None
+
+    def create_user(self, user: User) -> User:
+        self.users.append(user)
+        return user
+
+    def delete_user(self, name: str, agency: str, account: str) -> Optional[User]:
+        for idx, user in enumerate(self.users):
+            if user.name == name and user.agency == agency and user.account == account:
+                return self.users.pop(idx)
+        return None
+
+    def update_user(self, name: str, agency: str, account: str, current_balance: float) -> Optional[User]:
+        for user in self.users:
+            if user.name == name and user.agency == agency and user.account == account:
+                user.current_balance = current_balance
+                return user
+        return None
      
 # class ItemRepositoryMock(IItemRepository):
 #     items: Dict[int, Item]

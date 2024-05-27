@@ -9,9 +9,40 @@ class IUserRepository(ABC):
 
     @abstractmethod
     def get_all_users(self) -> List[User]:
-        """
-        Returns all the itens in the database 
-        """
+        '''
+        Returns all the users in the database.
+        '''
+        pass
+    
+    @abstractmethod
+    def get_user(self, name: str, agency: str, account: str) -> Optional[User]:
+        '''
+        Returns the user with the given name, agency, and account.
+        If the user does not exist, returns None.
+        '''
+        pass
+
+    @abstractmethod
+    def create_user(self, user: User) -> User:
+        '''
+        Creates a new user in the database and returns the created user.
+        '''
+        pass
+    
+    @abstractmethod
+    def delete_user(self, name: str, agency: str, account: str) -> Optional[User]:
+        '''
+        Deletes the user with the given name, agency, and account.
+        If the user does not exist, returns None.
+        '''
+        pass
+
+    @abstractmethod
+    def update_user(self, name: str, agency: str, account: str, current_balance: float) -> Optional[User]:
+        '''
+        Updates the user with the given name, agency, and account.
+        If the user does not exist, returns None.
+        '''
         pass
                         
 

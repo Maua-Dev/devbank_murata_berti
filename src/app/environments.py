@@ -4,7 +4,8 @@ import os
 
 from .errors.environment_errors import EnvironmentNotFound
 
-from .repo.item_repository_interface import IItemRepository
+from .repo.user_repository_interface import IUserRepository
+from .repo.transaction_repository_interface import ITransactionRepository
 
 
 class Environments:
@@ -28,10 +29,19 @@ class Environments:
         self.stage = STAGE[os.environ.get("STAGE")]
 
     @staticmethod
-    def get_item_repo() -> IItemRepository:
+    def get_user_repo() -> IUserRepository:
         if Environments.get_envs().stage == STAGE.TEST:
-            from .repo.item_repository_mock import ItemRepositoryMock
-            return ItemRepositoryMock
+            from .repo.user_repository_mock import IUserRepository
+            return IUserRepository
+        # use "elif" conditional to add other stages
+        else:
+            raise EnvironmentNotFound("STAGE")
+        
+    @staticmethod
+    def get_transaction_repo() -> ITransactionRepository:
+        if Environments.get_envs().stage == STAGE.TEST:
+            from .repo.transaction_repository_mock import ITransactionRepository
+            return ITransactionRepository
         # use "elif" conditional to add other stages
         else:
             raise EnvironmentNotFound("STAGE")

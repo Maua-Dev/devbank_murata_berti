@@ -1,5 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from mangum import Mangum
+from datetime import datetime
+
+from ..app.entities.transaction import Transaction
 
 from .environments import Environments
 
@@ -7,19 +10,19 @@ from .environments import Environments
 
 # from .errors.entity_errors import ParamNotValidated
 
-# from .enums.item_type_enum import ItemTypeEnum
+from .enums.transaction_type_enum import TransactionTypeEnum
 
 # from .entities.item import Item
 
 
 app = FastAPI()
 
-repo = Environments.get_item_repo()()
+user_repo = Environments.get_user_repo()()
+transaction_repo = Environments.get_transaction_repo()
 
-@app.get("/items/get_all_items")
-def get_all_items():
-    print("Entrando no get all items")
-    items = repo.get_all_items()
+@app.get("/items/get_all_users")
+def get_all_users():
+    items = user_repo.get_all_users()
 
     users_list = list()
     for item in items:
@@ -28,6 +31,76 @@ def get_all_items():
     return {
         "User": users_list
     }
+
+@app.get("/")
+def get_user():
+    user = user_repo.get_user()
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+    return user.to_dict()
+
+@app.post("/deposit")
+def deposit(request: dict):
+    user = user_repo.get_user()
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+    
+    deposit_amount = sum(int(key) * int(value) for key, value in request.items())
+    
+    if deposit_amount == user.current_balance * 2:
+        raise HTTPException(status_code=403, detail="Depósito suspeito")
+    
+    user.current_balance += deposit_amount
+    
+    timestamp = datetime.utcnow().timestamp() * 1000
+    transaction = Transaction(type="deposit", value=deposit_amount, current_balance=user.current_balance, timestamp=timestamp)
+    transaction_repo.create_transaction(transaction)
+    
+    return {
+        "current_balance": user.current_balance,
+        "timestamp": timestamp
+    }
+
+@app.post("/withdraw")
+def withdraw(request: dict):
+    user = user_repo.get_user()
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+    
+    withdraw_amount = sum(int(key) * int(value) for key, value in request.items())
+    
+    if withdraw_amount > user.current_balance:
+        raise HTTPException(status_code=403, detail="Saldo insuficiente para transação")
+    
+    user.current_balance -= withdraw_amount
+    
+    timestamp = datetime.utcnow().timestamp() * 1000
+    transaction = Transaction(type="withdraw", value=withdraw_amount, current_balance=user.current_balance, timestamp=timestamp)
+    transaction_repo.create_transaction(transaction)
+    
+    return {
+        "current_balance": user.current_balance,
+        "timestamp": timestamp
+    }
+
+@app.get("/history")
+def get_history():
+    transactions = user_repo.get_user()
+    if not transactions:
+        raise HTTPException(status_code=400, detail="User not found")
+    
+    all_transactions = transaction_repo.get_all_transactions()
+    
+    transaction_history = []
+    for transaction in all_transactions:
+        transaction_history.append({
+            "type": transaction.type,
+            "value": transaction.value,
+            "current_balance": transaction.current_balance,
+            "timestamp": transaction.timestamp
+        })
+    
+    return {"history": transaction_history}
 
 # @app.get("/items/{item_id}")
 # def get_item(item_id: int):
